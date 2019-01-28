@@ -1,12 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import SongList from './containers/SongList'
+import SongView from './containers/SongView'
+//get the rootReducer to pass for STORE creation
+import reducers from './reducers'// doesn't require braces bc it's a DEFAULT EXPORT
+//if I sourced out <App/>, it would be a 'dumb' component, not a container (bc it doesn't care about the app state, it just imports the containers)
+const App = () => {
+  return (
+    <React.Fragment>
+     
+      <div className="ui two column centered grid">
+        <div className="two column row">
+          <h2 className="ui huge header">Simple React/Redux List Picker</h2>
+        </div>
+        <SongList />
+        <SongView />
+      </div>
+    </React.Fragment>
+  )
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(
+<Provider store={createStore(reducers)}>
+  <App />
+</Provider>, document.querySelector('#root'))
